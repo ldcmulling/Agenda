@@ -49,9 +49,9 @@ int main(int argc, char **argv){
 		scanf("%d",c);
 		
 		if ( *c == 1 ) { 
+			realocar (pet,buffer);
 			adicionar(cp,pet);
 			*cp++;
-			realocar (pet,buffer);
 			}
 		if ( *c == 0 ) { printf ("voce saiu");}
 		else{printf ("numero errado tente denovo\n");}
