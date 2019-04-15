@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 void *buffer;
 int *cp, *c;
 struct pessoa *pet;
@@ -24,25 +23,28 @@ void adicionar(){
 void realocar (){
 	buffer = (void*)realloc (buffer , (2*sizeof(int)+ sizeof (struct pessoa))*(*cp+1));
 	cp=(int*)buffer;
-	c=cp+1;
+	c=(int*)cp+1;
 	pet=(struct pessoa*)c+1;
-	printf (" Realioc OK \n");
+	printf (" Realioc OK \n\n");
 }
 
 void delete(){
 	char temp[20];
+	int y=0;
 	printf (" Digite o nome da pessoa\n");
 	scanf(" %s" , temp);
 	for(int x=0;x<*cp;x++){
 		if (strcmp(temp,(pet+x)->nome) == 0){
-			
-		
-		x=*cp;
+			for(y=x;y<*cp;y++){
+				*(pet+y)->nome = *(pet+(y+1))->nome ;
+				(pet+y)->idade	= (pet+(y+1))->idade;
+				(pet+y)->telefone = (pet+(y+1))->telefone;
+			}
+			*cp=*cp-1;
+			realocar ();
 		}
-		else {printf("Nome nao encontrado\n\n");}
 	}
-	printf("Nome %s\n", temp);
-	
+	if (y==0){printf("Nome nao encontrado\n\n");}
 }
 
 void imprimirT (){
@@ -54,8 +56,7 @@ void imprimirT (){
 }
 
 int main(int argc, char **argv){
-
-    buffer=malloc((2*sizeof(int))+sizeof(struct pessoa));
+	buffer=malloc((2*sizeof(int))+sizeof(struct pessoa));
 	cp= (int*) buffer;
 	c=(int*)cp+1;
 	pet=(struct pessoa*)c+1;
@@ -91,6 +92,6 @@ int main(int argc, char **argv){
 		else{printf ("numero errado tente denovo\n");}
 	}
 	free(buffer);
-
+	
 	return 0;
 }
