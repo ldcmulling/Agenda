@@ -21,7 +21,7 @@ void adicionar(){
 }
 
 void realocar (){
-	buffer = (void*)realloc (buffer , (2*sizeof(int)+ sizeof (struct pessoa))*(*cp+1));
+	buffer = (void*)realloc (buffer , (2*sizeof(int)+ sizeof (struct pessoa))*((*cp)+1));
 	cp=(int*)buffer;
 	c=(int*)cp+1;
 	pet=(struct pessoa*)c+1;
@@ -57,10 +57,9 @@ void imprimirT (){
 }
 
 int main(int argc, char **argv){
-	buffer=malloc((2*sizeof(int))+sizeof(struct pessoa));
+	buffer=malloc((2*sizeof(int)));
 	cp= (int*) buffer;
 	c=(int*)cp+1;
-	pet=(struct pessoa*)c+1;
 	*cp=0;
 
 	//Menu
@@ -93,6 +92,6 @@ int main(int argc, char **argv){
 		else{printf ("numero errado tente denovo\n");}
 	}
 	free(buffer);
-	
+
 	return 0;
 }
