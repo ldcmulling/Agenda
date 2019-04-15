@@ -42,6 +42,7 @@ void delete(){
 			}
 			*cp=*cp-1;
 			realocar ();
+			if (strcmp(temp,(pet+x)->nome) == 0){x--;}
 		}
 	}
 	if (y==0){printf("Nome nao encontrado\n\n");}
