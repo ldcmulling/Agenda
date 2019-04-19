@@ -3,8 +3,13 @@
 #include <string.h>
 
 void *buffer;
-int *cp, *c;
+struct variavel *var;
 struct pessoa *pet;
+
+struct variavel{
+int cp, c, i, j;
+char temp[20];
+};
 
 struct pessoa{
 char nome[20];
@@ -13,85 +18,85 @@ int idade, telefone;
 
 void adicionar(){
 	printf("Digite o Nome \n");
-	scanf("%s", (pet+*cp)->nome);
+	scanf("%s", (pet+var->cp)->nome);
 	printf("Digite a idade\n");
-	scanf("%d", & (pet+*cp)->idade);
+	scanf("%d", & (pet+var->cp)->idade);
 	printf("Digite o Telefone\n");
-	scanf("%d", & (pet+*cp)->telefone);
+	scanf("%d", & (pet+var->cp)->telefone);
 }
 
 void realocar (){
-	buffer = (void*)realloc (buffer , (2*sizeof(int)+ sizeof (struct pessoa))*((*cp)+1));
-	cp=(int*)buffer;
-	c=(int*)cp+1;
-	pet=(struct pessoa*)c+1;
+	if ((buffer = (void*)realloc (buffer , (sizeof(struct variavel)+(sizeof(struct pessoa)*(var->cp+1))))) == NULL)	printf("Memoria nao alocada ERRO\n");
+	var= buffer;
+	pet=(var +1);
 	printf (" Realioc OK \n\n");
 }
 
 void delete(){
-	char temp[20];
-	int y=0;
 	printf (" Digite o nome da pessoa\n");
-	scanf(" %s" , temp);
-	for(int x=0;x<*cp;x++){
-		if (strcmp(temp,(pet+x)->nome) == 0){
-			for(y=x;y<*cp;y++){
-				*(pet+y)->nome = *(pet+(y+1))->nome ;
-				(pet+y)->idade	= (pet+(y+1))->idade;
-				(pet+y)->telefone = (pet+(y+1))->telefone;
+	scanf(" %s" , var->temp);
+	for(var->i=0,var->j=0;var->i<var->cp;var->i++){
+		if (strcmp(var->temp,(pet+var->i)->nome) == 0){
+			for(var->j=var->i;var->j<var->cp;var->j++){
+				*(pet+var->j)->nome = *(pet+(var->j+1))->nome ;
+				(pet+var->j)->idade	= (pet+(var->j+1))->idade;
+				(pet+var->j)->telefone = (pet+(var->j+1))->telefone;
 			}
-			*cp=*cp-1;
+			var->cp=var->cp-1;
 			realocar ();
-			if (strcmp(temp,(pet+x)->nome) == 0){x--;}
+			if (strcmp(var->temp,(pet+(var->i))->nome) == 0){var->i--;}
 		}
 	}
-	if (y==0){printf("Nome nao encontrado\n\n");}
+	if (var->j==0){printf("Nome nao encontrado\n\n");}
 }
 
 void imprimirT (){
-	for(int x=0;x<(*cp);x++){
-		printf("Nome %s\n", (pet+x)->nome);
-		printf("Idade %d\n", (pet+x)->idade);
-		printf("Telefone %d\n", (pet+x)->telefone);
+	for(var->i=0;var->i<(var->cp);(var->i)++){
+		printf("Nome %s\n", (pet+var->i)->nome);
+		printf("Idade %d\n", (pet+var->i)->idade);
+		printf("Telefone %d\n", (pet+var->i)->telefone);
 	}
 }
 
+
 int main(int argc, char **argv){
-	buffer=malloc((2*sizeof(int)));
-	cp= (int*) buffer;
-	c=(int*)cp+1;
-	*cp=0;
+	if((buffer= malloc(sizeof(struct variavel)))== NULL){
+		printf("Memoria nao alocada ERRO\n");
+    return -1;
+	}
+	var= buffer;
+	var->cp=0;
 
 	//Menu
-	for(*c=20;*c!=0;){
+	for(var->c=20;var->c!=0;){
 		printf (" Digite 1 para adicionar uma pessoa\n");
 		printf (" Digite 2 para imprimir tudo\n");
 		printf (" Digite 3 para apagar uma pessoa\n");
 		printf (" Digite 4 para apagar o ultimo\n");
 		printf (" Digite 0 para sair \n");
-		scanf("%d",c);
+		scanf("%d", & var->c);
 //Adiciona UN
-		if ( *c == 1 ) {
+		if ( var->c == 1 ) {
             realocar ();
 			adicionar();
-			*cp=*cp+1;
+			var->cp=var->cp+1;
 		}
 //Imprime tudo
-		else if ( (*c) == 2 ) {imprimirT ();}
+		else if ( (var->c) == 2 ) {imprimirT ();}
 //Pesquisar e Apagar
-		else if ( *c == 3 ) {
+		else if ( var->c == 3 ) {
 			delete();
 		}
 //Apagar o ultimo
-		else if ( *c == 4 ) {
-			*cp=*cp-1;
+		else if ( var->c == 4 ) {
+			var->cp=var->cp-1;
 			realocar ();
 		}
 //Sair
-		else if ( *c == 0 ) { printf ("voce saiu");}
+		else if ( var->c == 0 ) { printf ("voce saiu");}
 		else{printf ("numero errado tente denovo\n");}
 	}
 	free(buffer);
-
+	
 	return 0;
 }
