@@ -1,3 +1,5 @@
+//cuidado com github aberto
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
