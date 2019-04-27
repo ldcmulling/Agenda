@@ -1,12 +1,10 @@
-//cuidado com github aberto
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void *buffer;
+void *buffer,*quem;
 struct variavel *var;
-struct pessoa *pet;
+struct pessoa *pet, *aux;
 
 struct variavel{
 int cp, c, i, j;
@@ -18,6 +16,29 @@ char nome[20];
 int idade, telefone;
 };
 
+void bublesort(){
+	if ((quem = malloc (sizeof(struct pessoa))) == NULL)	{printf("Memoria nao alocada ERRO\n");}
+	aux = quem;
+	for ( var->i=1 ; var->i < var->cp ; var->i++ ){
+		for( var->j=var->i ; var->j < var->cp ; var->j++ ){
+			if ((pet+(var->j-1))->nome[0] > (pet+var->j)->nome[0]){
+				
+				
+				
+				
+				
+				
+				
+						*((pet+var->cp)->nome)= *aux->nome;
+						((pet+var->cp)->idade)= (aux->idade);
+						((pet+var->cp)->telefone)= (aux->telefone);
+			}
+		}
+		
+	}
+	free (quem);
+}
+
 void adicionar(){
 	printf("Digite o Nome \n");
 	scanf("%s", (pet+var->cp)->nome);
@@ -25,6 +46,9 @@ void adicionar(){
 	scanf("%d", & (pet+var->cp)->idade);
 	printf("Digite o Telefone\n");
 	scanf("%d", & (pet+var->cp)->telefone);
+	if ( var->cp > 0 ){
+		bublesort ();	
+	}
 }
 
 void realocar (){
@@ -60,7 +84,6 @@ void imprimirT (){
 	}
 }
 
-
 int main(int argc, char **argv){
 	if((buffer= malloc(sizeof(struct variavel)))== NULL){
 		printf("Memoria nao alocada ERRO\n");
@@ -91,7 +114,7 @@ int main(int argc, char **argv){
 		}
 //Apagar o ultimo
 		else if ( var->c == 4 ) {
-			var->cp=var->cp-1;
+			if ( var->cp > 0 ) var->cp=var->cp-1;
 			realocar ();
 		}
 //Sair
