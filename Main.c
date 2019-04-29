@@ -7,7 +7,7 @@ struct variavel *var;
 struct pessoa *pet, *aux;
 
 struct variavel{
-int cp, c, i, j;
+int cp, c, i, j, x;
 char temp[20];
 };
 
@@ -19,22 +19,23 @@ int idade, telefone;
 void bublesort(){
 	if ((quem = malloc (sizeof(struct pessoa))) == NULL)	{printf("Memoria nao alocada ERRO\n");}
 	aux = quem;
-	for ( var->i=1 ; var->i < var->cp ; var->i++ ){
-		for( var->j=var->i ; var->j < var->cp ; var->j++ ){
-			if ((pet+(var->j-1))->nome[0] > (pet+var->j)->nome[0]){
-				
-				
-				
-				
-				
-				
-				
-						*((pet+var->cp)->nome)= *aux->nome;
-						((pet+var->cp)->idade)= (aux->idade);
-						((pet+var->cp)->telefone)= (aux->telefone);
-			}
-		}
-		
+    for ( var->i=0 ; var->i < var->cp ; var->i++ ){
+        var->x=0;
+        for( var->j=0 ; var->j < (var->cp - var->i) ; var->j++ ){
+			if ((pet+var->j)->nome[0] > (pet+(var->j+1))->nome[0]){
+				*aux->nome = *(pet+var->j)->nome;
+				*(pet+var->j)->nome = *(pet+(var->j+1))->nome;
+				*(pet+(var->j+1))->nome = *aux->nome;
+                aux->idade = (pet+var->j)->idade;
+				(pet+var->j)->idade = (pet+(var->j+1))->idade;
+				(pet+(var->j+1))->idade = aux->idade;
+                aux->telefone = (pet+var->j)->telefone;
+				(pet+var->j)->telefone = (pet+(var->j+1))->telefone;
+				(pet+(var->j+1))->telefone = aux->telefone;
+				var->x=1;
+            }
+        }
+        if(var->x==0) var->i = var->cp;
 	}
 	free (quem);
 }
@@ -47,25 +48,25 @@ void adicionar(){
 	printf("Digite o Telefone\n");
 	scanf("%d", & (pet+var->cp)->telefone);
 	if ( var->cp > 0 ){
-		bublesort ();	
+		bublesort ();
 	}
 }
 
 void realocar (){
 	if ((buffer = (void*)realloc (buffer , (sizeof(struct variavel)+(sizeof(struct pessoa)*(var->cp+1))))) == NULL)	printf("Memoria nao alocada ERRO\n");
 	var= buffer;
-	pet=(var +1);
+	pet=(struct pessoa*)(var +1);
 	printf (" Realioc OK \n\n");
 }
 
 void delete(){
 	printf (" Digite o nome da pessoa\n");
 	scanf(" %s" , var->temp);
-	for(var->i=0,var->j=0;var->i<var->cp;var->i++){
+	for(var->i=0,var->j=0 ; var->i<var->cp ; var->i++){
 		if (strcmp(var->temp,(pet+var->i)->nome) == 0){
 			for(var->j=var->i;var->j<var->cp;var->j++){
 				*(pet+var->j)->nome = *(pet+(var->j+1))->nome ;
-				(pet+var->j)->idade	= (pet+(var->j+1))->idade;
+				(pet+var->j)->idade = (pet+(var->j+1))->idade;
 				(pet+var->j)->telefone = (pet+(var->j+1))->telefone;
 			}
 			var->cp=var->cp-1;
@@ -122,6 +123,6 @@ int main(int argc, char **argv){
 		else{printf ("numero errado tente denovo\n");}
 	}
 	free(buffer);
-	
+
 	return 0;
 }
